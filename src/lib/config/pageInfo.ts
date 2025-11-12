@@ -1,0 +1,1 @@
+export const pageTitle = "Apu's Media Hub";
