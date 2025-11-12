@@ -7,7 +7,7 @@ export const mediaCategories: MediaCategory[] = [
 		icon: '🎬',
 		description: 'Latest Bollywood movies and classics',
 		color: '#ef4444',
-		href: 'http://172.16.50.14/DHAKA-FLIX-14/Hindi%20Movies/'
+		link: 'http://172.16.50.14/DHAKA-FLIX-14/Hindi%20Movies/'
 	},
 	{
 		id: 'english-movies',
@@ -15,7 +15,7 @@ export const mediaCategories: MediaCategory[] = [
 		icon: '🎭',
 		description: 'Hollywood blockbusters and indie films',
 		color: '#3b82f6',
-		href: 'http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/'
+		link: 'http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/'
 	},
 	{
 		id: 'series',
@@ -23,7 +23,7 @@ export const mediaCategories: MediaCategory[] = [
 		icon: '📺',
 		description: 'Popular web series and TV shows',
 		color: '#10b981',
-		href: 'http://172.16.50.12/DHAKA-FLIX-12/TV-WEB-Series/'
+		link: 'http://172.16.50.12/DHAKA-FLIX-12/TV-WEB-Series/'
 	},
 	{
 		id: 'games',
@@ -31,7 +31,7 @@ export const mediaCategories: MediaCategory[] = [
 		icon: '🎮',
 		description: 'PC games, mobile apps and console games',
 		color: '#f59e0b',
-		href: 'http://172.16.50.8/DHAKA-FLIX-8/PC%20Games/'
+		link: 'http://172.16.50.8/DHAKA-FLIX-8/PC%20Games/'
 	},
 	{
 		id: 'music',
@@ -39,7 +39,7 @@ export const mediaCategories: MediaCategory[] = [
 		icon: '🎵',
 		description: 'Songs, albums and music videos',
 		color: '#8b5cf6',
-		href: '/music'
+		link: '/music'
 	},
 	{
 		id: 'software',
@@ -47,7 +47,7 @@ export const mediaCategories: MediaCategory[] = [
 		icon: '💻',
 		description: 'Applications, tools and utilities',
 		color: '#06b6d4',
-		href: '/software'
+		link: '/software'
 	},
 	{
 		id: 'books',
@@ -55,7 +55,7 @@ export const mediaCategories: MediaCategory[] = [
 		icon: '📚',
 		description: 'eBooks, audiobooks and magazines',
 		color: '#84cc16',
-		href: '/books'
+		link: '/books'
 	},
 	{
 		id: 'anime',
@@ -63,7 +63,7 @@ export const mediaCategories: MediaCategory[] = [
 		icon: '🎌',
 		description: 'Japanese anime series and movies',
 		color: '#ec4899',
-		href: '/anime'
+		link: '/anime'
 	}
 ];
 

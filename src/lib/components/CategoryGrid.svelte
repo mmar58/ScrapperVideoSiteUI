@@ -13,8 +13,8 @@
 	function handleCategoryClick(category: MediaCategoryType) {
 		if (onCategoryClick) {
 			onCategoryClick(category);
-		} else if (category.href) {
-			window.location.href = category.href;
+		} else if (category.link) {
+			window.location.href = category.link;
 		}
 	}
 </script>

@@ -5,7 +5,7 @@ export interface MediaCategory {
     imageUrl?: string;
 	description?: string;
 	color?: string;
-	href?: string;
+	link?: string;
 	date?: string;
 }
 
