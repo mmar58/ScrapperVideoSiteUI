@@ -32,8 +32,14 @@
 	onMount(() => {
 		connectSocket();
 		if ($socket) {
+			$socket.on('scrapeStart', () => {
+				console.log('WebSocket connected');
+			});
 			$socket.on('scrapedRow', (data: MediaCategory) => {
 				mediaList.update(list => [...list, data]);
+			});
+			$socket.on('scrapeComplete', () => {
+				console.log('Scraping complete');
 			});
 		}
 	});
