@@ -40,6 +40,10 @@
 </svelte:head>
 
 <main class="main-container">
+	<header class="hero-section">
+		<h1 class="hero-title">{pageTitle}</h1>
+		<p class="hero-subtitle">Your Ultimate Download Hub</p>
+	</header>
 	<div class="layout-flex">
 		<aside class="sidebar">
 			<VerticalCategoryList
@@ -49,10 +53,6 @@
 			/>
 		</aside>
 		<section class="content">
-			<header class="hero-section">
-				<h1 class="hero-title">{pageTitle}</h1>
-				<p class="hero-subtitle">Your Ultimate Download Hub</p>
-			</header>
 			<VerticalMediaList medias={$mediaList} />
 		</section>
 	</div>
@@ -64,24 +64,30 @@
 		flex-direction: row;
 		gap: 1.5rem;
 		min-height: 70vh;
+		align-items: flex-start;
+		padding: 0 1rem;
 	}
 	.sidebar {
-		min-width: 140px;
-		padding-top: 2rem;
+		min-width: 160px;
+		position: sticky;
+		top: 1rem;
+		align-self: flex-start;
 	}
 	.content {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
 	}
 	@media (max-width: 768px) {
 		.layout-flex {
 			flex-direction: column;
+			align-items: stretch;
+			padding: 0 0.5rem;
 		}
 		.sidebar {
 			min-width: 100%;
-			padding-top: 0.5rem;
+			position: relative;
+			top: 0;
 		}
 	}
 </style>

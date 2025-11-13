@@ -22,29 +22,31 @@ export let medias: MediaCategory[] = [];
 <style>
 .vertical-media-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.2rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
   padding: 0.5rem 0;
   width: 100%;
 }
 .media-card {
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px var(--card-shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 1rem;
   gap: 0.5rem;
   min-height: 160px;
-  transition: box-shadow 0.2s;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 .media-card:hover {
-  box-shadow: 0 6px 24px rgba(99,102,241,0.12);
+  box-shadow: 0 6px 24px var(--hover-shadow);
+  transform: translateY(-4px);
 }
 .media-thumb {
-  width: 72px;
-  height: 72px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
   border-radius: 8px;
 }
@@ -52,40 +54,42 @@ export let medias: MediaCategory[] = [];
   font-size: 2.5rem;
 }
 .media-title {
-  font-size: 1.1rem;
+  font-size: 1rem;
   text-align: center;
   font-weight: 600;
   margin-top: 0.2rem;
-  color: #312e81;
+  color: var(--text-primary);
   word-break: break-word;
+  line-height: 1.3;
 }
 .media-desc {
-  font-size: 0.95rem;
-  color: #6b7280;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
   text-align: center;
   margin-top: 0.2rem;
+  line-height: 1.4;
 }
 @media (max-width: 768px) {
   .vertical-media-list {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 0.7rem;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.75rem;
   }
   .media-card {
-    padding: 0.7rem;
-    min-height: 120px;
+    padding: 0.75rem;
+    min-height: 140px;
   }
   .media-thumb {
-    width: 56px;
-    height: 56px;
+    width: 64px;
+    height: 64px;
   }
   .media-icon {
     font-size: 2rem;
   }
   .media-title {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   .media-desc {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 }
 </style>
