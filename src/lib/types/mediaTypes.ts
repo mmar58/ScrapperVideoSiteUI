@@ -8,7 +8,10 @@ export interface MediaCategory {
 	link?: string;
 	date?: string;
 }
-
+export interface MediaDbEntry {
+	link: string;
+	mediaList: MediaCategoryId[];
+}
 export type MediaCategoryId = 
 	| 'hindi-movies'
 	| 'english-movies'
