@@ -1,11 +1,14 @@
 <script lang="ts">
 import type { MediaCategory } from '$lib/types/mediaTypes';
 export let medias: MediaCategory[] = [];
+export let onSelect: (media: MediaCategory) => void = () => {};
 </script>
 
 <div class="vertical-media-list">
   {#each medias as media}
-    <div class="media-card">
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <div class="media-card" on:click={() => {onSelect(media);console.log('Media selected:', media);}}>
       {#if media.imageUrl}
         <img src={media.imageUrl} alt={media.title} class="media-thumb" />
       {:else}

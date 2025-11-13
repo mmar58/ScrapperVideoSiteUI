@@ -3,14 +3,14 @@ import type { MediaCategory } from '$lib/types/mediaTypes';
 
 export let categories: MediaCategory[] = [];
 export let selectedId: string | null = null;
-export let onSelect: (id: string) => void = () => {};
+export let onSelect: (media:MediaCategory) => void = () => {};
 </script>
 
 <nav class="vertical-category-list">
   {#each categories as cat}
     <button
       class:selected={cat.id === selectedId}
-      on:click={() => onSelect(cat.id)}
+      on:click={() => onSelect(cat)}
       aria-label={cat.title}
     >
       {#if cat.imageUrl}

@@ -15,13 +15,9 @@
 	let enableDateFilter = false;
 	let searchText = '';
 
-	function handleCategorySelect(id: string) {
-		selectedCategoryId.set(id);
-		const category = mediaCategories.find(c => c.id === id);
-		if (category && $socket) {
-			$socket.emit('scrap', category.link);
-			mediaList.set([]); // Clear previous media
-		}
+	function handleCategorySelect(media : MediaCategory) {
+		
+		$socket?.emit('scrap', media.link);
 	}
 
 	function handleSearch() {
@@ -32,14 +28,17 @@
 	onMount(() => {
 		connectSocket();
 		if ($socket) {
-			$socket.on('scrapeStart', () => {
-				console.log('WebSocket connected');
+			$socket.on('scrapeStarted', () => {
+				mediaList.set([]); // Clear media list on new scrape start
+				console.group('Scrape Started');
 			});
 			$socket.on('scrapedRow', (data: MediaCategory) => {
 				mediaList.update(list => [...list, data]);
+				console.log('Scraped Row:', data);
 			});
-			$socket.on('scrapeComplete', () => {
+			$socket.on('scrapeCompleted', () => {
 				console.log('Scraping complete');
+				console.groupEnd();
 			});
 		}
 	});
@@ -94,7 +93,7 @@
 			/>
 		</aside>
 		<section class="content">
-			<VerticalMediaList medias={$mediaList} />
+			<VerticalMediaList medias={$mediaList} onSelect={handleCategorySelect} />
 		</section>
 	</div>
 </main>
