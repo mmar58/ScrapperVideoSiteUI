@@ -2,11 +2,12 @@
 	import VerticalCategoryList from '$lib/components/VerticalCategoryList.svelte';
 	import VerticalMediaList from '$lib/components/VerticalMediaList.svelte';
 	import { mediaCategories } from '$lib/data/categories';
-	import type { MediaCategory } from '$lib/types/mediaTypes';
+	import type { MediaCategory,MediaDbEntry } from '$lib/types/mediaTypes';
 	import { pageTitle } from '$lib/config/pageInfo';
 	import { socket, connectSocket, disconnectSocket } from '$lib/socket';
 	import { onMount, onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
+	import {currentViewingUrl,videoDb} from "$lib/stores/videoDb"
 
 	const selectedCategoryId = writable<string | null>(null);
 	const mediaList = writable<MediaCategory[]>([]);
@@ -16,7 +17,7 @@
 	let searchText = '';
 
 	function handleCategorySelect(media : MediaCategory) {
-		
+		$currentViewingUrl = media.link;
 		$socket?.emit('scrap', media.link);
 	}
 
@@ -32,9 +33,42 @@
 				mediaList.set([]); // Clear media list on new scrape start
 				console.group('Scrape Started');
 			});
-			$socket.on('scrapedRow', (data: MediaCategory) => {
-				mediaList.update(list => [...list, data]);
-				console.log('Scraped Row:', data);
+			$socket.on('scrapedRow', async(data: MediaCategory[]) => {
+				if(data.length>0){
+					mediaList.update(list => {
+						for(let mediaItem of data){
+							let isContain = list.find(item => item.link === mediaItem.link);
+							if(!isContain){
+								list.push(mediaItem);
+							}
+							else{
+								// Update existing item if needed
+								Object.assign(isContain, mediaItem);
+							}
+						}
+						return list;
+					});
+				}
+				// if(data.length>0){
+				// 	videoDb.update(db => {
+				// 		let curDb = db.find(entry => entry.link === data[0].parentLink);
+				// 		if(curDb){
+				// 			for(let mediaItem of data){
+				// 				let isContain = curDb.mediaList.find(item => item.link === mediaItem.link);
+				// 				if(!isContain){
+				// 					curDb!.mediaList.push(mediaItem);
+				// 				}
+				// 			}
+				// 		}
+				// 		else{
+				// 			db.push({
+				// 				link: data[0].parentLink!,
+				// 				mediaList: data
+				// 			});
+				// 		}
+				// 		return db;
+				// 	});
+				// }
 			});
 			$socket.on('scrapeCompleted', () => {
 				console.log('Scraping complete');

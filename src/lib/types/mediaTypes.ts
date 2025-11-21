@@ -7,10 +7,11 @@ export interface MediaCategory {
 	color?: string;
 	link?: string;
 	date?: string;
+	parentLink?: string;
 }
 export interface MediaDbEntry {
 	link: string;
-	mediaList: MediaCategoryId[];
+	mediaList: MediaCategory[];
 }
 export type MediaCategoryId = 
 	| 'hindi-movies'
