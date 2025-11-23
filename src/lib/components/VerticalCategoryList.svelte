@@ -13,6 +13,9 @@ export let onSelect: (media:MediaCategory) => void = () => {};
       on:click={() => onSelect(cat)}
       aria-label={cat.title}
     >
+      {#if cat.itemCount}
+        <span class="item-count">{cat.itemCount}</span>
+      {/if}
       {#if cat.imageUrl}
         <img src={cat.imageUrl} alt={cat.title} class="cat-thumb" />
       {:else}
@@ -47,6 +50,7 @@ export let onSelect: (media:MediaCategory) => void = () => {};
   font-size: 0.95rem;
   transition: all 0.2s;
   color: var(--text-primary);
+  position: relative;
 }
 .vertical-category-list button:hover {
   background: var(--selected-bg);
@@ -71,5 +75,19 @@ export let onSelect: (media:MediaCategory) => void = () => {};
   max-width: 90px;
   overflow-wrap: anywhere;
   text-align: left;
+}
+.item-count {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 </style>

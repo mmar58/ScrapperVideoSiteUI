@@ -9,6 +9,9 @@ export let onSelect: (media: MediaCategory) => void = () => {};
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div class="media-card" on:click={() => {onSelect(media);console.log('Media selected:', media);}}>
+      {#if media.itemCount}
+        <span class="item-count">{media.itemCount}</span>
+      {/if}
       {#if media.imageUrl}
         <img src={media.imageUrl} alt={media.title} class="media-thumb" />
       {:else}
@@ -42,6 +45,7 @@ export let onSelect: (media: MediaCategory) => void = () => {};
   min-height: 160px;
   transition: all 0.3s ease;
   cursor: pointer;
+  position: relative;
 }
 .media-card:hover {
   box-shadow: 0 6px 24px var(--hover-shadow);
@@ -71,6 +75,21 @@ export let onSelect: (media: MediaCategory) => void = () => {};
   text-align: center;
   margin-top: 0.2rem;
   line-height: 1.4;
+}
+.item-count {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  min-width: 24px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 @media (max-width: 768px) {
   .vertical-media-list {

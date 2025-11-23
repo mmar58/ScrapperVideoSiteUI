@@ -1,9 +1,10 @@
 export interface MediaCategory {
 	id: string;
 	title: string;
-	icon: string;
+	icon?: string;
     imageUrl?: string;
 	description?: string;
+	itemCount?: number;
 	color?: string;
 	link?: string;
 	date?: string;
