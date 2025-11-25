@@ -18,6 +18,7 @@
 
 	function handleCategorySelect(media : MediaCategory) {
 		$currentViewingUrl = media.link;
+		mediaList.set([]); // Clear current media list
 		$socket?.emit('scrap', media.link);
 	}
 
@@ -33,7 +34,11 @@
 				mediaList.set([]); // Clear media list on new scrape start
 				console.group('Scrape Started');
 			});
+			$socket.on('scrapeError', (errorMsg: string) => {
+				// console.error('Scrape Error:', errorMsg);
+			});
 			$socket.on('scrapedRow', async(data: MediaCategory[]) => {
+				console.log('Scraped row data:', data,Date.now());
 				if(data.length>0){
 					mediaList.update(list => {
 						for(let mediaItem of data){
