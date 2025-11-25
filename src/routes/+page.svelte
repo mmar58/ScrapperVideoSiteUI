@@ -8,6 +8,8 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
 	import {currentViewingUrl,videoDb} from "$lib/stores/videoDb"
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	const selectedCategoryId = writable<string | null>(null);
 	const mediaList = writable<MediaCategory[]>([]);
@@ -16,9 +18,31 @@
 	let enableDateFilter = false;
 	let searchText = '';
 
+	// Update URL when navigating
+	function updateURL(url: string) {
+		const encodedUrl = encodeURIComponent(url);
+		goto(`?url=${encodedUrl}`, { replaceState: false, keepFocus: true });
+	}
+
+	// Load state from URL
+	function loadFromURL() {
+		const urlParam = $page.url.searchParams.get('url');
+		if (urlParam) {
+			const decodedUrl = decodeURIComponent(urlParam);
+			$currentViewingUrl = decodedUrl;
+			// Trigger scraping for the URL from params
+			if ($socket) {
+				mediaList.set([]);
+				$socket.emit('scrap', decodedUrl);
+			}
+		}
+	}
+
 	function handleCategorySelect(media : MediaCategory) {
+		if (!media.link) return;
 		$currentViewingUrl = media.link;
 		mediaList.set([]); // Clear current media list
+		updateURL(media.link); // Update browser URL
 		$socket?.emit('scrap', media.link);
 	}
 
@@ -29,6 +53,12 @@
 
 	onMount(() => {
 		connectSocket();
+		
+		// Wait for socket connection before loading from URL
+		setTimeout(() => {
+			loadFromURL();
+		}, 100);
+		
 		if ($socket) {
 			$socket.on('scrapeStarted', () => {
 				mediaList.set([]); // Clear media list on new scrape start
@@ -123,6 +153,28 @@
 		<h1 class="hero-title">{pageTitle}</h1>
 		<p class="hero-subtitle">Your Ultimate Download Hub</p>
 	</header>
+	
+	{#if $currentViewingUrl}
+		<div class="breadcrumb-container">
+			<button class="breadcrumb-home" on:click={() => {
+				$currentViewingUrl = '';
+				mediaList.set([]);
+				goto('/', { replaceState: false });
+			}}>
+				🏠 Home
+			</button>
+			<span class="breadcrumb-separator">/</span>
+			<span class="breadcrumb-current" title={$currentViewingUrl}>
+				{decodeURIComponent($currentViewingUrl.split('/').filter(p => p).pop() || '')}
+			</span>
+			<button class="copy-url-btn" on:click={() => {
+				navigator.clipboard.writeText(window.location.href);
+			}} title="Copy current URL">
+				📋
+			</button>
+		</div>
+	{/if}
+	
 	<div class="layout-flex">
 		<aside class="sidebar">
 			<VerticalCategoryList
@@ -219,6 +271,67 @@
 		transform: translateY(0);
 	}
 
+	.breadcrumb-container {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1rem;
+		margin: 0 1rem 1rem 1rem;
+		background: var(--card-bg);
+		border-radius: 8px;
+		box-shadow: 0 2px 8px var(--card-shadow);
+		flex-wrap: wrap;
+	}
+
+	.breadcrumb-home {
+		background: linear-gradient(135deg, #6366f1, #8b5cf6);
+		color: white;
+		border: none;
+		padding: 0.4rem 0.75rem;
+		border-radius: 6px;
+		cursor: pointer;
+		font-size: 0.9rem;
+		font-weight: 600;
+		transition: all 0.2s;
+	}
+
+	.breadcrumb-home:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+	}
+
+	.breadcrumb-separator {
+		color: var(--text-secondary);
+		font-size: 1rem;
+	}
+
+	.breadcrumb-current {
+		color: var(--text-primary);
+		font-weight: 600;
+		font-size: 0.9rem;
+		max-width: 300px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.copy-url-btn {
+		background: var(--card-bg);
+		border: 1px solid rgba(99, 102, 241, 0.3);
+		padding: 0.4rem 0.75rem;
+		border-radius: 6px;
+		cursor: pointer;
+		font-size: 1rem;
+		transition: all 0.2s;
+		margin-left: auto;
+	}
+
+	.copy-url-btn:hover {
+		background: rgba(99, 102, 241, 0.1);
+		border-color: rgba(99, 102, 241, 0.6);
+		transform: translateY(-1px);
+	}
+
 	.layout-flex {
 		display: flex;
 		flex-direction: row;
@@ -250,6 +363,20 @@
 		
 		.text-input {
 			min-width: 150px;
+		}
+
+		.breadcrumb-container {
+			margin: 0 0.5rem 0.75rem 0.5rem;
+			padding: 0.5rem 0.75rem;
+		}
+
+		.breadcrumb-current {
+			max-width: 150px;
+			font-size: 0.85rem;
+		}
+
+		.copy-url-btn {
+			padding: 0.3rem 0.6rem;
 		}
 		
 		.layout-flex {
