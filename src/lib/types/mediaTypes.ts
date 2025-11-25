@@ -5,11 +5,13 @@ export interface MediaCategory {
     imageUrl?: string;
 	description?: string;
 	itemCount?: number;
+	linkType?: LinkType;
 	color?: string;
 	link?: string;
 	date?: string;
 	parentLink?: string;
 }
+export type LinkType = 'video' | 'image' | 'link';
 export interface MediaDbEntry {
 	link: string;
 	mediaList: MediaCategory[];
