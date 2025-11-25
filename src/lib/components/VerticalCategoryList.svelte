@@ -13,8 +13,8 @@ export let onSelect: (media:MediaCategory) => void = () => {};
       on:click={() => onSelect(cat)}
       aria-label={cat.title}
     >
-      {#if cat.itemCount}
-        <span class="item-count">{cat.itemCount}</span>
+      {#if cat.filesCount}
+        <span class="item-count">{cat.filesCount}</span>
       {/if}
       {#if cat.imageUrl}
         <img src={cat.imageUrl} alt={cat.title} class="cat-thumb" />

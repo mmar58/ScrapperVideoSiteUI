@@ -9,8 +9,8 @@ export let onSelect: (media: MediaCategory) => void = () => {};
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div class="media-card" on:click={() => {onSelect(media);console.log('Media selected:', media);}}>
-      {#if media.itemCount}
-        <span class="item-count">{media.itemCount}</span>
+      {#if media.filesCount}
+        <span class="item-count">{media.filesCount}</span>
       {/if}
       {#if media.imageUrl}
         <img src={media.imageUrl} alt={media.title} class="media-thumb" />
